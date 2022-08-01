@@ -1,0 +1,19 @@
+
+[DONE] 1 select conversationussd.dikirim = 0
+[DONE] 2 loop utk semua hasil #1, 
+[DONE] cek apakah conversationussd.tujuan ada di table campaigns.nomorWa dan campaigns.aktif = 1
+[DONE] 3 kalau ada, cek apakah conversationussd.id_pages_terakhir = 0 atau tidak
+[DONE]	0 : - ambil flow_pages.pageText yang flow_pages.uuid = sm_t0
+[DONE]		- kirimkan flow_pages.pageText dan update conversationussd.id_pages_terakhir = flow_pages.id
+		
+[DONE]	!0 :- ambil group option-nya (flow_pages.optionGroup) berdasarkan conversationussd.id_pages_terakhir
+[DONE]		- apabila flow_pages.optionGroup != freetext
+[DONE]			!freetext : - ambil semua row di flow_options yang campaignId = data di #2 dan groupUUID = flow_pages.optionGroup di atas
+[DONE]						- cek conversationussd.textPesan, apakah konten-nya ada di flow_options.optionAnswer. bandingkan dengan memakai simbol di flow_options.optionRule-nya (= atau *).
+[DONE]						- kalau ada, kirimkan pesan selanjutnya berdasarkan optionGoto. select pageText from flow_pages where campaignId = data di #2 and uudi = flow_options.optionGoto
+[DONE]						- update conversationussd.dikirim = 1, conversationussd.id_pages_terakhir = flow_pages.id
+		
+[DONE]			freetext  : - ambil conversationussd.textPesan dan search ke table policy_status.policy_number
+[DONE]						- kirimkan policy_status.current_status ke nomor pengirim (conversationussd.dari).
+[DONE]						- update conversationussd.dikirim = 1, conversationussd.id_pages_terakhir = 0
+4 kembali ke #2
