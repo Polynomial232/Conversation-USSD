@@ -1,4 +1,3 @@
-
 [DONE] 1 select conversationussd.dikirim = 0
 [DONE] 2 loop utk semua hasil #1, 
 [DONE] cek apakah conversationussd.tujuan ada di table campaigns.nomorWa dan campaigns.aktif = 1
